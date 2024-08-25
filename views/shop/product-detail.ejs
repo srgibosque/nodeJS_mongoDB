@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../shared/head.ejs') %>
+    <link rel="stylesheet" href="/css/card.css">
+</head>
+
+<body>
+  <header class="main-header">
+    <%- include('../shared/nav.ejs') %>
+  </header>
+
+  <main>
+    <h2><%= product.title %></h2>
+    <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
+    <h3><%= product.price %></h3>
+    <p><%= product.description %></p>
+    <%- include('../shared/add-to-cart.ejs') %>
+  </main>
+</body>

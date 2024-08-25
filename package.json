@@ -1,0 +1,24 @@
+{
+  "name": "myfirstexpressjsproject",
+  "version": "1.0.0",
+  "description": "My first expressJS project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "Sergi Bosque",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0",
+    "mysql2": "^3.11.0",
+    "pug": "^3.0.3",
+    "sequelize": "^6.37.3"
+  }
+}

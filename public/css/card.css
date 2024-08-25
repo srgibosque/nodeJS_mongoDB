@@ -1,0 +1,59 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.card {
+  border: 2px solid #333333;
+  padding: 0;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product__title {
+  color: #333333;
+  margin: 0;
+}
+
+.card__image {
+  min-width: 200px;
+  background-color: lightsteelblue;
+  max-height: 160px;
+}
+
+.card__image img {
+  width: 100%;
+  height: auto;
+}
+
+.card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem
+}
+
+.product__price {
+  color: #663cff;
+  margin: 0;
+}
+
+.product__description {
+  margin: 0;
+}
+
+.card__actions {
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+}
+
+.card-btn {
+  width: 100%;
+}

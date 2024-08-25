@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../shared/head.ejs') %>
+    <link rel="stylesheet" href="/css/card.css">
+</head>
+
+<body>
+  <header class="main-header">
+    <%- include('../shared/nav.ejs') %>
+  </header>
+
+  <main>
+    <h2>Orders</h2>
+    <% if(orders.length > 0) { %>
+      <ul>
+        <% orders.forEach(order => { %>
+          <li>
+            <h1># <%= order.id %> </h1>
+            <ul>
+              <% order.products.forEach(product => { %>
+                <li>
+                  <p> <%= product.title %> </p>
+                  <p> <%= product.orderItem.quantity %> </p>
+                </li>
+              <% }) %>
+            </ul>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <h2>No orders yet</h2>
+    <% } %>
+  </main>
+</body>
