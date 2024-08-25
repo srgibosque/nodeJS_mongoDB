@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
-const mongoConnect = require('./util/database')
+const mongoConnect = require('./util/database').mongoConnect;
 
 const app = express();
 
@@ -13,8 +13,8 @@ app.set('view engine', 'ejs');
 // tells express in which folder the templates are located
 app.set('views', 'views');
 
-// const adminRoutes = require('./routes/admin');
-// const shopRoutes = require('./routes/shop');
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
 //It parses the requests
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -31,16 +31,15 @@ app.use((req, res, next) => {
   //     next();
   //   })
   //   .catch(err => console.error(err));
+  next();
 });
 
-// app.use('/admin', adminRoutes);
-// app.use(shopRoutes);
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-mongoConnect((client) => {
+mongoConnect(() => {
   app.listen(3000);
-  console.log(client);
-
 });
 
