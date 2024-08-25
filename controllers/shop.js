@@ -27,16 +27,13 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const productId = req.params.productId;
-  // findById is a sequelize method to interact with the db
-  Product.findAll({ where: { id: productId } })
-    .then((products) => {
-      if (products.length > 0) {
-        res.render('shop/product-detail', {
-          product: products[0],
-          pageTitle: products[0].title,
-          path: '/products'
-        });
-      }
+  Product.findById(productId)
+    .then((product) => {
+      res.render('shop/product-detail', {
+        product: product,
+        pageTitle: product.title,
+        path: '/products'
+      });
     })
     .catch(err => console.error(err));
 }
@@ -107,7 +104,7 @@ exports.postCartDeleteItem = (req, res, next) => {
 
 exports.getOrders = (req, res, next) => {
   req.user
-    .getOrders({include: ['products']})
+    .getOrders({ include: ['products'] })
     .then(orders => {
       res.render('shop/orders', {
         pageTitle: 'Orders',
