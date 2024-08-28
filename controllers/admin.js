@@ -1,6 +1,4 @@
 const Product = require('../models/product');
-const mongodb = require('mongodb');
-const ObjectId = mongodb.ObjectId;
 
 exports.getAddProduct = (req, res, next) => {
   res.render('admin/edit-product', {
@@ -66,13 +64,9 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.findByPk(prodId)
-    .then(product => {
-      //returns a promise that the product will be deleted
-      return product.destroy();
-    })
-    .then(result => {
-      console.log('Product deleted successfully');
+  Product.deleteById(prodId)
+    .then(() => {
+      console.log('Product deleted');
       res.redirect('/admin/products');
     })
     .catch(err => console.error(err));
