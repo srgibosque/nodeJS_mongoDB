@@ -1,7 +1,6 @@
 const Product = require('../models/product');
 
 exports.getIndex = (req, res, next) => {
-  // findAll is a sequelize method to interact with the db
   Product.fetchAll()
     .then(products => {
       res.render('shop/product-list', {

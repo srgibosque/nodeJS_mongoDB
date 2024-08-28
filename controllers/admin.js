@@ -1,4 +1,6 @@
 const Product = require('../models/product');
+const mongodb = require('mongodb');
+const ObjectId = mongodb.ObjectId;
 
 exports.getAddProduct = (req, res, next) => {
   res.render('admin/edit-product', {
@@ -7,26 +9,6 @@ exports.getAddProduct = (req, res, next) => {
     isEditing: false
   });
 };
-
-// exports.getEditProduct = (req, res, next) => {
-//   const editMode = req.query.edit;
-//   if (!editMode) {
-//     return res.redirect('/');
-//   }
-//   const prodId = req.params.productId;
-//   Product.findByPk(prodId)
-//     .then((product) => {
-//       if (product) {
-//         res.render('admin/edit-product', {
-//           pageTitle: 'Edit product',
-//           path: '/edit-product',
-//           isEditing: editMode,
-//           product: product
-//         });
-//       }
-//     })
-//     .catch(err => console.error(err));
-// };
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
@@ -43,57 +25,69 @@ exports.postAddProduct = (req, res, next) => {
     .catch(err => console.error(err));
 }
 
-// exports.postEditProduct = (req, res, next) => {
-//   const prodId = req.body.productId;
-//   const updatedTitle = req.body.title;
-//   const updatedImageUrl = req.body.imageUrl;
-//   const updatedPrice = req.body.price;
-//   const updatedDescription = req.body.description;
-//   Product.findOne({ where: { id: prodId } })
-//     .then((product) => {
-//       if (!product) {
-//         console.log("Product not found");
-//         return
-//       }
-//       product.title = updatedTitle;
-//       product.price = updatedPrice;
-//       product.imageUrl = updatedImageUrl;
-//       product.description = updatedDescription;
-//       //method provided by sequelize. Updates the changes to the db. It returns a promise
-//       return product.save();
-//     })
-//     .then(result => {
-//       console.log("Product successfully updated");
-//       res.redirect('/admin/products');
-//     })
-//     .catch(err => console.error(err));
-// }
+exports.getEditProduct = (req, res, next) => {
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect('/');
+  }
+  const prodId = req.params.productId;
+  Product.findById(prodId)
+    .then((product) => {
+      if (product) {
+        res.render('admin/edit-product', {
+          pageTitle: 'Edit product',
+          path: '/edit-product',
+          isEditing: editMode,
+          product: product
+        });
+      }
+    })
+    .catch(err => console.error(err));
+};
 
-// exports.postDeleteProduct = (req, res, next) => {
-//   const prodId = req.body.productId;
-//   Product.findByPk(prodId)
-//     .then(product => {
-//       //returns a promise that the product will be deleted
-//       return product.destroy();
-//     })
-//     .then(result => {
-//       console.log('Product deleted successfully');
-//       res.redirect('/admin/products');
-//     })
-//     .catch(err => console.error(err));
-// }
+exports.postEditProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  const updatedTitle = req.body.title;
+  const updatedImageUrl = req.body.imageUrl;
+  const updatedPrice = req.body.price;
+  const updatedDescription = req.body.description;
 
-// exports.getProducts = (req, res, next) => {
-//   // we shall retriev only the products for one user
-//   req.user
-//     .getProducts()
-//     .then((products) => {
-//       res.render('admin/products', {
-//         prods: products,
-//         pageTitle: 'Admin Products',
-//         path: '/admin/products'
-//       });
-//     })
-//     .catch(err => console.error(err));
+  console.log('Incoming request:', req.method, req.url, req.params);
+  const product = new Product(updatedTitle, updatedPrice, updatedImageUrl, updatedDescription, prodId);
+  console.log(product);
+  product
+    .save()
+    .then(result => {
+      console.log("Product successfully updated");
+      res.redirect('/admin/products');
+    })
+    .catch(err => console.error(err));
+}
 
-// }
+exports.postDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.findByPk(prodId)
+    .then(product => {
+      //returns a promise that the product will be deleted
+      return product.destroy();
+    })
+    .then(result => {
+      console.log('Product deleted successfully');
+      res.redirect('/admin/products');
+    })
+    .catch(err => console.error(err));
+}
+
+exports.getProducts = (req, res, next) => {
+  // we shall retriev only the products for one user
+  Product
+    .fetchAll()
+    .then((products) => {
+      res.render('admin/products', {
+        prods: products,
+        pageTitle: 'Admin Products',
+        path: '/admin/products'
+      });
+    })
+    .catch(err => console.error(err));
+}

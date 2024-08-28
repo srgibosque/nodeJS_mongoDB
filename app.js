@@ -22,17 +22,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Middleware to pass a user to every incoming request
-app.use((req, res, next) => {
-  // User.findByPk(1)
-  //   .then(user => {
-  //     //We assing a new property to the req object
-  //     req.user = user;
-  //     // Goes to the next request
-  //     next();
-  //   })
-  //   .catch(err => console.error(err));
-  next();
-});
+// app.use((req, res, next) => {
+//   // User.findByPk(1)
+//   //   .then(user => {
+//   //     //We assing a new property to the req object
+//   //     req.user = user;
+//   //     // Goes to the next request
+//   //     next();
+//   //   })
+//   //   .catch(err => console.error(err));
+//   next();
+// });
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
