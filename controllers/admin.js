@@ -14,7 +14,8 @@ exports.postAddProduct = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
 
-  const product = new Product(title, price, imageUrl, description);
+  // retrieve the user id from the request in app.js 
+  const product = new Product(title, price, imageUrl, description, null, req.user._id);
   product.save()
     .then((result) => {
       console.log('Created product');

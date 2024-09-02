@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
 const mongoConnect = require('./util/database').mongoConnect;
+const User = require('./models/user')
 
 const app = express();
 
@@ -21,18 +22,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //loads static files like css
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Middleware to pass a user to every incoming request
-// app.use((req, res, next) => {
-//   // User.findByPk(1)
-//   //   .then(user => {
-//   //     //We assing a new property to the req object
-//   //     req.user = user;
-//   //     // Goes to the next request
-//   //     next();
-//   //   })
-//   //   .catch(err => console.error(err));
-//   next();
-// });
+// Middleware to pass a user to every incoming request
+app.use((req, res, next) => {
+  User.findById('66cf3efa91a6aca071476df5')
+    .then(user => {
+      //We assing a new property to the req object
+      req.user = new User(user.username, user.email, user.cart, user._id);
+      // Goes to the next request
+      next();
+    })
+    .catch(err => console.error(err));
+});
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
