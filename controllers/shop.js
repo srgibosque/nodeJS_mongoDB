@@ -38,11 +38,8 @@ exports.getProduct = (req, res, next) => {
 }
 
 exports.getCart = (req, res, next) => {
-  req.user.getCart()
-    .then((cart) => {
-      // I can execute getProducts cause a Cart has been associated with many products Cart.belongsToMany(Product, { through: CartItem });
-      return cart.getProducts()
-    })
+  req.user
+    .getCart()
     .then((products) => {
       res.render('shop/cart', {
         pageTitle: 'Cart',
@@ -59,7 +56,7 @@ exports.postCart = (req, res, next) => {
     .findById(productId)
     .then((product) => {
       return req.user.addToCart(product);
-     })
+    })
     .then(result => console.log(result))
     .catch(err => console.error(err));
   // let fetchedCart;
