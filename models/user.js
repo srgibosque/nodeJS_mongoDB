@@ -81,11 +81,24 @@ class User {
       );
   }
 
+  getOrders() {
+    const db = getDb();
+    // return db.collection('orders')
+  }
+
   addOrder() {
     const db = getDb();
-    return db
-      .collection('orders')
-      .insertOne(this.cart)
+    return this.getCart()
+      .then(products => {
+        const order = {
+          items: products,
+          user: {
+            _id: this._id,
+            username: this.username,
+          }
+        }
+        return db.collection('orders').insertOne(order);
+      })
       .then(result => {
         this.cart = { items: [] };
         return db

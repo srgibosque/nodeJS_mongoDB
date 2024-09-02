@@ -89,7 +89,6 @@ exports.getOrders = (req, res, next) => {
 }
 
 exports.postOrders = (req, res, next) => {
-  let fetchedCart;
   req.user
     .addOrder()
     .then(result => {
