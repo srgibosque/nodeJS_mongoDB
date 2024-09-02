@@ -83,7 +83,11 @@ class User {
 
   getOrders() {
     const db = getDb();
-    // return db.collection('orders')
+    //returns only the documents that have the property id of the user matching the user in the constructor (the current user)
+    return db
+      .collection('orders')
+      .find({ 'user._id': this._id })
+      .toArray();
   }
 
   addOrder() {
